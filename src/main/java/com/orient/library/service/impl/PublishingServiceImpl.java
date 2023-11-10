@@ -51,8 +51,6 @@ public class PublishingServiceImpl implements PublishingService {
         publishingRepository.save(publishing);
         return "Publisher has been successfully updated";
     }
-
-
     @Override
     public String deletePublishing(Long id) {
         Publishing publishing = findPublishing(id);
