@@ -63,7 +63,7 @@ public class LeaseStatusServiceImpl implements LeaseStatusService {
         LeaseStatus leaseStatus = leaseStatusRepository.findByIdAndIsDeleted(id
                 ,DeleteType.NONDELETE.value());
         if(leaseStatus == null){
-            throw new DataNotFoundException(Message.LEASE_STATUS_NOT_FOUNT.value());
+            throw new DataNotFoundException(Message.LEASE_STATUS_NOT_FOUND.value());
         }
         return leaseStatus;
     }
