@@ -31,9 +31,6 @@ public class PublishingController {
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseApi> getPublishingById(@PathVariable @Valid @NotNull(message = "Id is required") Long id) {
         PublishingResponseDto publisher = publishingService.getPublishingById(id);
-        if (publisher == null) {
-            throw new DataNotFoundException(Message.PUBLISHING_NOT_FOUND.value());
-        }
         return ResponseEntity.ok(responseApi(HttpStatus.OK.value(), Message.SUCCESS.value(), publisher));
     }
     @PostMapping("/create")

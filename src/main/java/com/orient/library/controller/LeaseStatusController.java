@@ -33,9 +33,6 @@ public class LeaseStatusController {
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseApi> getLeaseStatusById(@PathVariable @Valid @NotNull(message = "Id is required!") Long id){
         LeaseStatusResponseDto leaseStatuse = leaseStatusService.getLeaseStatusById(id);
-        if(leaseStatuse == null){
-            throw new DataNotFoundException(Message.LEASE_STATUS_NOT_FOUND.value());
-        }
         return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),Message.SUCCESS.value(),leaseStatuse));
     }
     @PostMapping("/create")

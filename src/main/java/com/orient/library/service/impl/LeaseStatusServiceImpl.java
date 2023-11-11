@@ -31,7 +31,7 @@ public class LeaseStatusServiceImpl implements LeaseStatusService {
 
     @Override
     public LeaseStatusResponseDto getLeaseStatusById(Long id) {
-        return LeaseStatusMapper.INSTANCE.entityToDto(leaseStatusRepository.findByIdAndIsDeleted(id,DeleteType.NONDELETE.value()));
+        return LeaseStatusMapper.INSTANCE.entityToDto(findLeaseStatus(id));
     }
 
     @Override
