@@ -8,7 +8,8 @@ public enum Message {
     AUTHOR_NOT_FOUND("Author not found!"),
     LEASE_STATUS_NOT_FOUND("LeaseStatus not found!"),
     PENALTY_TYPE_NOT_FOUND("PenaltyType not found!"),
-    PUBLISHING_NOT_FOUND("Publisher not found!");
+    PUBLISHING_NOT_FOUND("Publisher not found!"),
+    SHELF_NOT_FOUND("Shelf not found!");
 
     private String message;
     Message(String message){

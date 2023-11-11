@@ -33,8 +33,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDto getCategoryById(Long id) {
-        return CategoryMapper.INSTANCE.entityToDto(categoryRepository.findCategoryByIdAndIsDeleted(id,
-                DeleteType.NONDELETE.value()));
+        return CategoryMapper.INSTANCE.entityToDto(findCategory(id));
     }
 
     @Override

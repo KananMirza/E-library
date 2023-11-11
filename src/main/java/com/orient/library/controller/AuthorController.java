@@ -35,9 +35,6 @@ public class AuthorController {
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseApi> getAuthorById(@PathVariable @Valid @NotBlank(message = "Id is required!") Long id){
         AuthorResponseDto author = authorService.getAuthorById(id);
-        if(author == null){
-            throw new DataNotFoundException("No authors found!");
-        }
         return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),
                 Message.SUCCESS.value(),author));
     }

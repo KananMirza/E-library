@@ -34,9 +34,6 @@ public class CategoryController {
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseApi> getCategoryById(@PathVariable @Valid @NotNull(message = "Id is required") Long id) {
         CategoryResponseDto category = categoryService.getCategoryById(id);
-        if (category == null) {
-            throw new DataNotFoundException(Message.CATEGORY_NOT_FOUND.value());
-        }
         return ResponseEntity.ok(responseApi(HttpStatus.OK.value(), Message.SUCCESS.value(),category));
     }
 

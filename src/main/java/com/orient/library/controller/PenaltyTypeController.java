@@ -31,9 +31,6 @@ public class PenaltyTypeController {
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseApi> findPenaltTypeById(@PathVariable @Valid @NotNull(message = "Id is required") Long id){
         PenaltyTypeResponseDto responseDto = penaltyTypeService.getPenaltyTypeById(id);
-        if(responseDto == null){
-            throw new DataNotFoundException(Message.PENALTY_TYPE_NOT_FOUND.value());
-        }
         return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),Message.SUCCESS.value(), responseDto));
     }
 

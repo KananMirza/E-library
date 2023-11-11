@@ -32,8 +32,7 @@ public class PenaltyTypeServiceImpl implements PenaltyTypeService {
 
     @Override
     public PenaltyTypeResponseDto getPenaltyTypeById(Long id) {
-        return PenaltyTypeMapper.INSTANCE.entityToDto(penaltyTypeRepository.findPenaltyTypeByIdAndIsDeleted(id
-                , DeleteType.NONDELETE.value()));
+        return PenaltyTypeMapper.INSTANCE.entityToDto(findPenaltyType(id));
     }
 
     @Override

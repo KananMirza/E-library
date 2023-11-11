@@ -31,7 +31,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorResponseDto getAuthorById(Long id) {
-        return AuthorMapper.INSTANCE.entityToDto(authorRepository.findAuthorByIdAndIsDeleted(id,DeleteType.NONDELETE.value()));
+        return AuthorMapper.INSTANCE.entityToDto(findAuthor(id));
     }
 
     @Override

@@ -31,8 +31,7 @@ public class PublishingServiceImpl implements PublishingService {
     }
     @Override
     public PublishingResponseDto getPublishingById(Long id) {
-        return PublishingMapper.INSTANCE.entityToDto(publishingRepository.findPublishingByIdAndIsDeleted(id
-                ,DeleteType.NONDELETE.value()));
+        return PublishingMapper.INSTANCE.entityToDto(findPublishing(id));
     }
     @Override
     public String createPublishing(PublishingRequestDto publishingRequestDto) {
