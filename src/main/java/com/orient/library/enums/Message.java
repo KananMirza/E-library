@@ -9,7 +9,8 @@ public enum Message {
     LEASE_STATUS_NOT_FOUND("LeaseStatus not found!"),
     PENALTY_TYPE_NOT_FOUND("PenaltyType not found!"),
     PUBLISHING_NOT_FOUND("Publisher not found!"),
-    SHELF_NOT_FOUND("Shelf not found!");
+    SHELF_NOT_FOUND("Shelf not found!"),
+    BOOK_NOT_FOUND("Book not found!");
 
     private String message;
     Message(String message){

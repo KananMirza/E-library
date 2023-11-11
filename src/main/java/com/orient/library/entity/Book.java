@@ -7,19 +7,32 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.Year;
+import java.util.Date;
 
 @Entity
-@Table(name = "shelf")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Table(name = "books")
 @DynamicInsert
-public class Shelf {
+public class Book {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name = "shelf_no")
-    String shelfNo;
+    @Column(name = "seria_id")
+    String seriaId;
+    @Column(name = "shelf_id")
+    Integer shelfId;
+    @Column(name = "title")
+    String title;
+    @Column(name = "description")
+    String description;
+    @Column(name = "penalty_amount")
+    Float penaltyAmount;
+    @Column(name = "year_publishing")
+    Year yearPublishing;
+    @Column(name = "count")
+    Integer count;
     @Column(name = "status")
     Integer status;
     @Column(name = "is_deleted")
@@ -29,6 +42,9 @@ public class Shelf {
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "shelf", cascade = CascadeType.ALL)
-    private List<Book> books;
+
+    @ManyToOne
+    @JoinColumn(name = "shelf_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Shelf shelf;
+
 }

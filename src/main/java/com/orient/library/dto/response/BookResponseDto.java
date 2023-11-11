@@ -5,13 +5,20 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.time.Year;
+import java.util.Date;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class ShelfResponseDto {
+public class BookResponseDto {
     Long id;
-    String shelfNo;
+    String seriaId;
+    ShelfResponseDto shelf;
+    String title;
+    String description;
+    Float penaltyAmount;
+    Year yearPublishing;
+    Integer count;
     Integer status;
     LocalDateTime createdAt;
 }
