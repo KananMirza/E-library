@@ -13,7 +13,7 @@ import java.util.Date;
 public class BookResponseDto {
     Long id;
     String seriaId;
-    ShelfResponseDto shelf;
+    Integer shelfId;
     String title;
     String description;
     Float penaltyAmount;

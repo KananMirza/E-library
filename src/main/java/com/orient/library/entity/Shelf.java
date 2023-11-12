@@ -7,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "shelf")
@@ -28,7 +27,4 @@ public class Shelf {
     LocalDateTime createdAt;
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
-
-    @OneToMany(mappedBy = "shelf", cascade = CascadeType.ALL)
-    private List<Book> books;
 }

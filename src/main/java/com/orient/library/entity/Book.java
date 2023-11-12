@@ -8,7 +8,6 @@ import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.Date;
 
 @Entity
 @Data
@@ -41,10 +40,4 @@ public class Book {
     LocalDateTime createdAt;
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
-
-
-    @ManyToOne
-    @JoinColumn(name = "shelf_id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Shelf shelf;
-
 }

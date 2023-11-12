@@ -10,7 +10,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper(componentModel = "book")
 public interface BookMapper {
     BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
-    @Mapping(source = "shelf", target = "shelf")
     BookResponseDto entityToDto(Book book);
     Book dtoToEntity(BookRequestDto bookRequestDto);
 }
