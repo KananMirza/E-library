@@ -8,6 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
 import java.time.Year;
+import java.util.List;
 
 @Entity
 @Data
@@ -40,4 +41,7 @@ public class Book {
     LocalDateTime createdAt;
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
+    @OneToMany()
+    @JoinTable(name = "book_category", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    List<Category> category;
 }
