@@ -37,7 +37,7 @@ public class BookController {
     }
     @PostMapping("/create")
     public ResponseEntity<ResponseApi> createBook(@RequestBody @Valid BookRequestDto bookRequestDto){
-        return ResponseEntity.status(HttpStatus.CREATED.value()).body(responseApi(HttpStatus.OK.value()
+        return ResponseEntity.status(HttpStatus.CREATED.value()).body(responseApi(HttpStatus.CREATED.value()
         ,bookService.createBook(bookRequestDto),null));
     }
     @PostMapping("/update")
