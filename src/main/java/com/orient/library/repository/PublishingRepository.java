@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface PublishingRepository extends JpaRepository<Publishing,Long> {
     List<Publishing> getPublishingsByIsDeleted(Integer isDeleted);
+    List<Publishing> findAllByIdInAndIsDeletedAndStatus(List<Long> ids,Integer isDeleted,Integer status);
     Publishing findPublishingByIdAndIsDeleted(Long id,Integer isDeleted);
 }

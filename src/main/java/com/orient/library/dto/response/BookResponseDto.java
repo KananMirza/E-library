@@ -7,7 +7,6 @@ import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
 import java.time.Year;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -15,7 +14,11 @@ import java.util.List;
 public class BookResponseDto {
     Long id;
     String seriaId;
-    Integer shelfId;
+    ShelfResponseDto shelf;
+    @JsonProperty("categories")
+    List<CategoryResponseDto> categories;
+    List<AuthorResponseDto> authors;
+    List<PublishingResponseDto> publishers;
     String title;
     String description;
     Float penaltyAmount;
@@ -23,6 +26,5 @@ public class BookResponseDto {
     Integer count;
     Integer status;
     LocalDateTime createdAt;
-    @JsonProperty("categories")
-    List<CategoryResponseDto> categoryResponseDtos;
+
 }

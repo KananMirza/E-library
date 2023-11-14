@@ -1,6 +1,6 @@
 package com.orient.library.service.impl;
 
-import com.orient.library.dto.request.PenaltyTypRequestDto;
+import com.orient.library.dto.request.PenaltyTypeRequestDto;
 import com.orient.library.dto.response.PenaltyTypeResponseDto;
 import com.orient.library.entity.PenaltyType;
 import com.orient.library.enums.DeleteType;
@@ -36,14 +36,14 @@ public class PenaltyTypeServiceImpl implements PenaltyTypeService {
     }
 
     @Override
-    public String createPenaltyType(PenaltyTypRequestDto penaltyTypRequestDto) {
+    public String createPenaltyType(PenaltyTypeRequestDto penaltyTypRequestDto) {
             PenaltyType penaltyType = PenaltyTypeMapper.INSTANCE.dtoToEntity(penaltyTypRequestDto);
             penaltyTypeRepository.save(penaltyType);
             return "PenaltyType has been successfully created";
     }
 
     @Override
-    public String updatePenaltyType(PenaltyTypRequestDto penaltyTypRequestDto) {
+    public String updatePenaltyType(PenaltyTypeRequestDto penaltyTypRequestDto) {
         PenaltyType penaltyType = findPenaltyType(penaltyTypRequestDto.getId());
         penaltyType.setName(penaltyTypRequestDto.getName());
         penaltyType.setUpdatedAt(CURRENT_TIME);

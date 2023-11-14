@@ -1,6 +1,6 @@
 package com.orient.library.mapper;
 
-import com.orient.library.dto.request.PenaltyTypRequestDto;
+import com.orient.library.dto.request.PenaltyTypeRequestDto;
 import com.orient.library.dto.response.PenaltyTypeResponseDto;
 import com.orient.library.entity.PenaltyType;
 import org.mapstruct.Mapper;
@@ -12,5 +12,5 @@ public interface PenaltyTypeMapper {
 
     PenaltyTypeResponseDto entityToDto(PenaltyType penaltyType);
 
-    PenaltyType dtoToEntity(PenaltyTypRequestDto penaltyTypRequestDto);
+    PenaltyType dtoToEntity(PenaltyTypeRequestDto penaltyTypRequestDto);
 }

@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long> {
     List<Category> getCategoriesByIsDeleted(Integer isDeleted);
+    List<Category> findAllByIdInAndIsDeletedAndStatus(List<Long> ids,Integer isDelete,Integer status);
     Category findCategoryByIdAndIsDeleted(Long id, Integer isDeleted);
 }

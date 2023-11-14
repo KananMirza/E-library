@@ -1,9 +1,8 @@
 package com.orient.library.controller;
 
-import com.orient.library.dto.request.PenaltyTypRequestDto;
+import com.orient.library.dto.request.PenaltyTypeRequestDto;
 import com.orient.library.dto.response.PenaltyTypeResponseDto;
 import com.orient.library.enums.Message;
-import com.orient.library.exception.DataNotFoundException;
 import com.orient.library.response.ResponseApi;
 import com.orient.library.service.PenaltyTypeService;
 import jakarta.validation.Valid;
@@ -35,13 +34,13 @@ public class PenaltyTypeController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseApi> createPenaltyType(@RequestBody @Valid PenaltyTypRequestDto penaltyTypRequestDto){
+    public ResponseEntity<ResponseApi> createPenaltyType(@RequestBody @Valid PenaltyTypeRequestDto penaltyTypRequestDto){
         return ResponseEntity.status(HttpStatus.CREATED.value()).body(responseApi(HttpStatus.CREATED.value()
         ,penaltyTypeService.createPenaltyType(penaltyTypRequestDto),null));
     }
 
     @PostMapping("/update")
-    public ResponseEntity<ResponseApi> updatePenaltyType(@RequestBody @Valid PenaltyTypRequestDto penaltyTypRequestDto){
+    public ResponseEntity<ResponseApi> updatePenaltyType(@RequestBody @Valid PenaltyTypeRequestDto penaltyTypRequestDto){
         return ResponseEntity.ok(responseApi(HttpStatus.OK.value(), penaltyTypeService.updatePenaltyType(penaltyTypRequestDto),null));
     }
 
