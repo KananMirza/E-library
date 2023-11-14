@@ -21,8 +21,9 @@ public class Book {
     Long id;
     @Column(name = "seria_id")
     String seriaId;
-    @Column(name = "shelf_id")
-    Integer shelfId;
+    @ManyToOne
+    @JoinColumn(name = "shelf_id")
+    Shelf shelf;
     @Column(name = "title")
     String title;
     @Column(name = "description")
@@ -41,7 +42,13 @@ public class Book {
     LocalDateTime createdAt;
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
-    @OneToMany()
+    @ManyToMany()
     @JoinTable(name = "book_category", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    List<Category> category;
+    List<Category> categories;
+    @ManyToMany()
+    @JoinTable(name = "book_author", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "author_id"))
+    List<Author> authors;
+    @ManyToMany()
+    @JoinTable(name = "book_publishing", joinColumns = @JoinColumn(name = "book_id"), inverseJoinColumns = @JoinColumn(name = "publishing_id"))
+    List<Publishing> publishers;
 }

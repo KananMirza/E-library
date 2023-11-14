@@ -67,7 +67,7 @@ public class ShelfServiceImpl implements ShelfService {
         return "Shelf status has been successfully changed!";
     }
 
-    private Shelf findShelf(Long id){
+    public Shelf findShelf(Long id){
         Shelf shelf = shelfRepository.findShelfByIdAndIsDeleted(id, DeleteType.NONDELETE.value());
         if(shelf == null){
             throw new DataNotFoundException(Message.SHELF_NOT_FOUND.value());
