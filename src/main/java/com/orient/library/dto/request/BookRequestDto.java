@@ -22,11 +22,11 @@ public class BookRequestDto {
     @NotBlank(message = "Title is required!")
     String title;
     @NotNull(message = "At least one category must be selected")
-    List<Long> categories;
+    List<Long> categoriesId;
     @NotNull(message = "At least one author must be selected")
-    List<Long> authors;
+    List<Long> authorsId;
     @NotNull(message = "At least one publisher must be selected")
-    List<Long> publishers;
+    List<Long> publishersId;
     @NotBlank(message = "Description is required!")
     String description;
     @NotNull(message = "Penalty amount is required!")

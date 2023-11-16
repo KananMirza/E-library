@@ -50,9 +50,9 @@ public class BookServiceImpl implements BookService {
     public String createBook(BookRequestDto bookRequestDto) {
         Book book = BookMapper.INSTANCE.dtoToEntity(bookRequestDto);
         Shelf shelf = shelfService.findShelf(bookRequestDto.getShelfId());
-        List<Category> categories = getCategoryList(bookRequestDto.getCategories());
-        List<Author> authors = getAuthorList(bookRequestDto.getAuthors());
-        List<Publishing> publishers = getPublishingList(bookRequestDto.getPublishers());
+        List<Category> categories = getCategoryList(bookRequestDto.getCategoriesId());
+        List<Author> authors = getAuthorList(bookRequestDto.getAuthorsId());
+        List<Publishing> publishers = getPublishingList(bookRequestDto.getPublishersId());
         book.setShelf(shelf);
         book.setCategories(categories);
         book.setAuthors(authors);
@@ -65,9 +65,9 @@ public class BookServiceImpl implements BookService {
     public String updateBook(BookRequestDto bookRequestDto) {
         Book book = findBook(bookRequestDto.getId());
         Shelf shelf = shelfService.findShelf(bookRequestDto.getShelfId());
-        List<Category> categories = getCategoryList(bookRequestDto.getCategories());
-        List<Author> authors = getAuthorList(bookRequestDto.getAuthors());
-        List<Publishing> publishers = getPublishingList(bookRequestDto.getPublishers());
+        List<Category> categories = getCategoryList(bookRequestDto.getCategoriesId());
+        List<Author> authors = getAuthorList(bookRequestDto.getAuthorsId());
+        List<Publishing> publishers = getPublishingList(bookRequestDto.getPublishersId());
         setBookFields(book, shelf, bookRequestDto, categories, authors, publishers);
         book.setUpdatedAt(LocalDateTime.now());
         bookRepository.save(book);
