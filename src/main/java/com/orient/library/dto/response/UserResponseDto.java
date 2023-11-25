@@ -9,10 +9,9 @@ import java.util.List;
 @Data
 public class UserResponseDto {
     Long id;
-    Long userRoleId;
     String firstName;
     String lastName;
-    List<UserPhone> phoneList;
+    List<UserPhone> phones;
     String patryonomic;
     String email;
     String seriaCode;
