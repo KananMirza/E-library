@@ -10,7 +10,8 @@ public enum Message {
     PENALTY_TYPE_NOT_FOUND("PenaltyType not found!"),
     PUBLISHING_NOT_FOUND("Publisher not found!"),
     SHELF_NOT_FOUND("Shelf not found!"),
-    BOOK_NOT_FOUND("Book not found!");
+    BOOK_NOT_FOUND("Book not found!"),
+    USER_ROLE_NOT_FOUND("User role not found!");
 
     private String message;
     Message(String message){

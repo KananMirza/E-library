@@ -6,6 +6,7 @@ import com.orient.library.enums.Message;
 import com.orient.library.exception.DataNotFoundException;
 import com.orient.library.response.ResponseApi;
 import com.orient.library.service.LeaseStatusService;
+import com.orient.library.util.Utility;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,38 +23,35 @@ import java.util.List;
 @RequestMapping("/api/v1/lease-status")
 public class LeaseStatusController {
     private final LeaseStatusService leaseStatusService;
-    private final ResponseApi responseApi;
+    private final Utility utility;
 
     @GetMapping("/get-all")
-    public ResponseEntity<ResponseApi> getAllLeaseStatus(){
+    public ResponseEntity<ResponseApi> getAllLeaseStatus() {
         List<LeaseStatusResponseDto> leaseStatuses = leaseStatusService.getAllLeaseStatus();
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),Message.SUCCESS.value(),leaseStatuses));
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(), Message.SUCCESS.value(), leaseStatuses));
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<ResponseApi> getLeaseStatusById(@PathVariable @Valid @NotNull(message = "Id is required!") Long id){
+    public ResponseEntity<ResponseApi> getLeaseStatusById(@PathVariable @Valid @NotNull(message = "Id is required!") Long id) {
         LeaseStatusResponseDto leaseStatuse = leaseStatusService.getLeaseStatusById(id);
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),Message.SUCCESS.value(),leaseStatuse));
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(), Message.SUCCESS.value(), leaseStatuse));
     }
+
     @PostMapping("/create")
-    public ResponseEntity<ResponseApi> createLeaseStatus(@RequestBody @Valid LeaseStatusRequestDto leaseStatusRequestDto){
-        return ResponseEntity.status(HttpStatus.CREATED.value()).body(responseApi(HttpStatus.CREATED.value(),
-                leaseStatusService.createLeaseStatus(leaseStatusRequestDto),null));
+    public ResponseEntity<ResponseApi> createLeaseStatus(@RequestBody @Valid LeaseStatusRequestDto leaseStatusRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED.value()).body(utility.response(HttpStatus.CREATED.value(),
+                leaseStatusService.createLeaseStatus(leaseStatusRequestDto), null));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<ResponseApi> updateLeaseStatus(@RequestBody @Valid LeaseStatusRequestDto leaseStatusRequestDto){
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),
-                leaseStatusService.updateLeaseStatus(leaseStatusRequestDto),null));
+    public ResponseEntity<ResponseApi> updateLeaseStatus(@RequestBody @Valid LeaseStatusRequestDto leaseStatusRequestDto) {
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),
+                leaseStatusService.updateLeaseStatus(leaseStatusRequestDto), null));
     }
+
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ResponseApi> deleteLeaseStatus(@PathVariable @Valid @NotNull(message = "Id is required!") Long id){
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),
-                leaseStatusService.deleteLeaseStatus(id),null));
-    }
-    private ResponseApi responseApi(Integer status,String message,Object object){
-        responseApi.setStatus(status);
-        responseApi.setMessage(message);
-        responseApi.setBody(object);
-        return responseApi;
+    public ResponseEntity<ResponseApi> deleteLeaseStatus(@PathVariable @Valid @NotNull(message = "Id is required!") Long id) {
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),
+                leaseStatusService.deleteLeaseStatus(id), null));
     }
 }
