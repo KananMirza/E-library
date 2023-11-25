@@ -1,6 +1,8 @@
 package com.orient.library.exception.handler;
 
 import com.orient.library.exception.DataNotFoundException;
+import com.orient.library.response.ErrorResponse;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,44 +19,44 @@ import java.util.UUID;
 
 @RestControllerAdvice
 @Slf4j
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
-
+    private final ErrorResponse errorResponse;
     @ExceptionHandler({Exception.class})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<Map<String, Object>> handleException(Exception ex){
-        Map<String, Object> response = new HashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        response.put("message", ex.getMessage());
-        response.put("traceId", generateTraceId());
+    public ResponseEntity<ErrorResponse> handleException(Exception ex){
+        errorResponse.setDate(LocalDateTime.now());
+        errorResponse.setTraceId(generateTraceId());
+        errorResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+        errorResponse.setMessage(ex.getMessage());
 
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
 
     @ExceptionHandler({DataNotFoundException.class})
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<Map<String,Object>> handleException(DataNotFoundException ex){
-        Map<String, Object> response = new HashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", HttpStatus.NOT_FOUND.value());
-        response.put("message", ex.getMessage());
-        response.put("traceId", generateTraceId());
+    public ResponseEntity<ErrorResponse> handleException(DataNotFoundException ex){
+        errorResponse.setDate(LocalDateTime.now());
+        errorResponse.setTraceId(generateTraceId());
+        errorResponse.setStatus(HttpStatus.NOT_FOUND.value());
+        errorResponse.setMessage(ex.getMessage());
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
     }
+
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, Object>> handleValidationException(MethodArgumentNotValidException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("timestamp", LocalDateTime.now());
-        response.put("status", HttpStatus.BAD_REQUEST.value());
+    public ResponseEntity<ErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
+        errorResponse.setDate(LocalDateTime.now());
+        errorResponse.setTraceId(generateTraceId());
+        errorResponse.setStatus(HttpStatus.BAD_REQUEST.value());
+        errorResponse.setMessage(ex.getMessage());
 
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            response.put("message", error.getDefaultMessage());
+            errorResponse.setMessage(error.getDefaultMessage());
         }
-        response.put("traceId", generateTraceId());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
     private String generateTraceId() {
