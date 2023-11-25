@@ -7,6 +7,7 @@ import com.orient.library.enums.Message;
 import com.orient.library.exception.DataNotFoundException;
 import com.orient.library.response.ResponseApi;
 import com.orient.library.service.AuthorService;
+import com.orient.library.util.Utility;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
@@ -23,52 +24,47 @@ import java.util.List;
 @RequestMapping("/api/v1/author")
 public class AuthorController {
     private final AuthorService authorService;
-    private final ResponseApi responseApi;
+    private final Utility utility;
 
     @GetMapping("/get-all")
-    public ResponseEntity<ResponseApi> getAllAuthor(){
+    public ResponseEntity<ResponseApi> getAllAuthor() {
         List<AuthorResponseDto> authors = authorService.getAllAuthor();
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),
-                Message.SUCCESS.value(),authors));
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),
+                Message.SUCCESS.value(), authors));
     }
 
     @GetMapping("/get/{id}")
-    public ResponseEntity<ResponseApi> getAuthorById(@PathVariable @Valid @NotBlank(message = "Id is required!") Long id){
+    public ResponseEntity<ResponseApi> getAuthorById(@PathVariable @Valid @NotBlank(message = "Id is required!") Long id) {
         AuthorResponseDto author = authorService.getAuthorById(id);
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),
-                Message.SUCCESS.value(),author));
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),
+                Message.SUCCESS.value(), author));
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseApi> createAuthor(@RequestBody @Valid AuthorRequestDto authorRequestDto){
-        return ResponseEntity.status(HttpStatus.CREATED.value()).body(this.responseApi(HttpStatus.CREATED.value(),
+    public ResponseEntity<ResponseApi> createAuthor(@RequestBody @Valid AuthorRequestDto authorRequestDto) {
+        return ResponseEntity.status(HttpStatus.CREATED.value()).body(utility.response(HttpStatus.CREATED.value(),
                 Message.SUCCESS.value(),
                 authorService.createAuthor(authorRequestDto)));
     }
+
     @PostMapping("/update")
-    public ResponseEntity<ResponseApi> updateAuthor(@RequestBody @Valid AuthorRequestDto authorRequestDto){
-        return ResponseEntity.ok(this.responseApi(HttpStatus.OK.value(),
+    public ResponseEntity<ResponseApi> updateAuthor(@RequestBody @Valid AuthorRequestDto authorRequestDto) {
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),
                 authorService.updateAuthor(authorRequestDto),
                 null));
     }
+
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<ResponseApi> deleteAuthor(@PathVariable @Valid @NotBlank(message = "Id is required!") Long id){
-        return ResponseEntity.ok(this.responseApi(HttpStatus.OK.value(),
+    public ResponseEntity<ResponseApi> deleteAuthor(@PathVariable @Valid @NotBlank(message = "Id is required!") Long id) {
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),
                 authorService.deleteAuthor(id),
                 null));
     }
 
     @PostMapping("/change-status")
-    public ResponseEntity<ResponseApi> changeStatus(@RequestBody @Valid StatusRequestDto StatusRequestDto){
-        return ResponseEntity.ok(this.responseApi(HttpStatus.OK.value(),
+    public ResponseEntity<ResponseApi> changeStatus(@RequestBody @Valid StatusRequestDto StatusRequestDto) {
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),
                 authorService.changeStatus(StatusRequestDto),
                 null));
-    }
-
-    private ResponseApi responseApi(Integer status,String message,Object object){
-        responseApi.setMessage(message);
-        responseApi.setStatus(status);
-        responseApi.setBody(object);
-        return responseApi;
     }
 }

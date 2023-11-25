@@ -7,6 +7,7 @@ import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,8 +18,9 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    @Column(name = "user_role_id")
-    Integer userRole;
+    @OneToOne
+    @JoinColumn(name = "user_role_id")
+    UserRole userRole;
     @Column(name = "first_name")
     String firstName;
     @Column(name = "last_name")
@@ -26,8 +28,12 @@ public class User {
     String patryonomic;
     String email;
     String password;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    List<UserPhone> phones;
     @Column(name = "seria_code")
     String seriaCode;
+    @Column(name = "seria_number")
+    Integer seriaNumber;
     String fin;
     Integer status;
     @Column(name = "is_deleted")
@@ -36,4 +42,5 @@ public class User {
     LocalDateTime createdAt;
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
+
 }

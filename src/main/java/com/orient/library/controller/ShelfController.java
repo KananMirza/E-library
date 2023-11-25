@@ -6,6 +6,7 @@ import com.orient.library.dto.response.ShelfResponseDto;
 import com.orient.library.enums.Message;
 import com.orient.library.response.ResponseApi;
 import com.orient.library.service.ShelfService;
+import com.orient.library.util.Utility;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -22,40 +23,33 @@ import java.util.List;
 @RequestMapping("/api/v1/shelf")
 public class ShelfController {
     private final ShelfService shelfService;
-    private final ResponseApi responseApi;
+    private final Utility utility;
 
     @GetMapping("/get-all")
     public ResponseEntity<ResponseApi> getAllShelfs(){
         List<ShelfResponseDto> shelves = shelfService.getAllShelves();
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(), Message.SUCCESS.value(), shelves));
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(), Message.SUCCESS.value(), shelves));
     }
     @GetMapping("/get/{id}")
     public ResponseEntity<ResponseApi> findShelfById(@PathVariable @Valid @NotNull(message = "Id is required!") Long id){
         ShelfResponseDto shelf = shelfService.getShelfById(id);
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(), Message.SUCCESS.value(), shelf));
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(), Message.SUCCESS.value(), shelf));
     }
     @PostMapping("/create")
     public ResponseEntity<ResponseApi> createShelf(@RequestBody @Valid ShelfRequestDto shelfRequestDto){
-        return ResponseEntity.status(HttpStatus.CREATED.value()).body(responseApi(HttpStatus.OK.value()
+        return ResponseEntity.status(HttpStatus.CREATED.value()).body(utility.response(HttpStatus.OK.value()
         ,shelfService.createShelf(shelfRequestDto),null));
     }
     @PostMapping("/update")
     public ResponseEntity<ResponseApi> updateShelf(@RequestBody @Valid ShelfRequestDto shelfRequestDto){
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),shelfService.updateShelf(shelfRequestDto),null));
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),shelfService.updateShelf(shelfRequestDto),null));
     }
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseApi> deleteShelf(@PathVariable @Valid @NotNull(message = "Id is required") Long id){
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(),shelfService.deleteShelf(id),null));
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),shelfService.deleteShelf(id),null));
     }
     @PostMapping("change-status")
     public ResponseEntity<ResponseApi> changeStatus(@RequestBody @Valid StatusRequestDto statusRequestDto){
-        return ResponseEntity.ok(responseApi(HttpStatus.OK.value(), shelfService.changeStatus(statusRequestDto),null));
-    }
-
-    private ResponseApi responseApi(Integer status,String message,Object object){
-        responseApi.setStatus(status);
-        responseApi.setMessage(message);
-        responseApi.setBody(object);
-        return responseApi;
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(), shelfService.changeStatus(statusRequestDto),null));
     }
 }
