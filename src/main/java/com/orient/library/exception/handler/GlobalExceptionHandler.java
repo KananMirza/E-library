@@ -2,6 +2,7 @@ package com.orient.library.exception.handler;
 
 import com.orient.library.exception.DataNotFoundException;
 import com.orient.library.response.ErrorResponse;
+import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -42,6 +43,17 @@ public class GlobalExceptionHandler {
         errorResponse.setMessage(ex.getMessage());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler({JwtException.class})
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public ResponseEntity<ErrorResponse> handleException(JwtException ex){
+        errorResponse.setDate(LocalDateTime.now());
+        errorResponse.setTraceId(generateTraceId());
+        errorResponse.setStatus(HttpStatus.UNAUTHORIZED.value());
+        errorResponse.setMessage(ex.getMessage());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 
 
