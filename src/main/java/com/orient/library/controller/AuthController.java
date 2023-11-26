@@ -1,13 +1,16 @@
 package com.orient.library.controller;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.orient.library.auth.TokenManager;
 import com.orient.library.dto.request.LoginRequest;
+import com.orient.library.dto.request.RefreshTokenRequestDto;
 import com.orient.library.dto.request.UserRequestDto;
 import com.orient.library.enums.Message;
 import com.orient.library.response.ResponseApi;
 import com.orient.library.service.AuthService;
 import com.orient.library.util.Utility;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,12 +31,19 @@ public class AuthController {
     private final Utility utility;
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseApi> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<ResponseApi> login(@RequestBody @Valid LoginRequest loginRequest) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );
         return ResponseEntity.ok(utility.response(HttpStatus.OK.value(), Message.SUCCESS.value(), tokenManager.generateToken(loginRequest.getEmail())));
     }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<ResponseApi> refreshToken(@RequestBody @Valid RefreshTokenRequestDto refreshToken) {
+        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(), Message.SUCCESS.value()
+                , tokenManager.refreshToken(refreshToken)));
+    }
+
 
     @PostMapping("/register")
     public ResponseEntity<ResponseApi> register(@RequestBody @Valid UserRequestDto userRequestDto) {

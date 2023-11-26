@@ -27,18 +27,20 @@ public class WebSecuriyConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    public void configurePasswordEncoder(AuthenticationManagerBuilder builder) throws Exception{
+    public void configurePasswordEncoder(AuthenticationManagerBuilder builder) throws Exception {
         builder.userDetailsService(userDetailService).passwordEncoder(getBBCryptPasswordEncoder());
     }
 
     @Bean
-    public BCryptPasswordEncoder getBBCryptPasswordEncoder(){
+    public BCryptPasswordEncoder getBBCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests((request) -> request
-                .requestMatchers("/api/v1/auth/login","/api/v1/auth/register").permitAll().anyRequest().authenticated()
+                .requestMatchers("/api/v1/auth/login", "/api/v1/auth/register", "/api/v1/auth/refresh-token")
+                .permitAll().anyRequest().authenticated()
         ).sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
