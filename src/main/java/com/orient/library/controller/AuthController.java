@@ -7,6 +7,7 @@ import com.orient.library.enums.Message;
 import com.orient.library.response.ResponseApi;
 import com.orient.library.service.AuthService;
 import com.orient.library.util.Utility;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,8 +36,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseApi> register(@RequestBody UserRequestDto registerRequestDto) {
+    public ResponseEntity<ResponseApi> register(@RequestBody @Valid UserRequestDto userRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED.value()).body(utility.response(HttpStatus.CREATED.value()
-                , authService.register(registerRequestDto), null));
+                , authService.register(userRequestDto), null));
     }
 }

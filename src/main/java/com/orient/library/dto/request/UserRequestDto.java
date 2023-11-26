@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 public class UserRequestDto {
-    @Nullable
+    @NotNull(message = "User Role is required!")
     Long userRoleId;
     @NotBlank(message = "First name is required!")
     String firstName;

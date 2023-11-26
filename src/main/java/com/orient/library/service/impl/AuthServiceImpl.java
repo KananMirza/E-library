@@ -27,16 +27,16 @@ public class AuthServiceImpl implements AuthService {
     private final UserRoleRepository userRoleRepository;
     private final UserPhonesRepository userPhonesRepository;
     @Override
-    public String register(UserRequestDto registerRequestDto) {
-        User user = UserMapper.INSTANCE.dtoToEntity(registerRequestDto);
-        if(registerRequestDto.getUserRoleId() != null){
-            UserRole userRole = userRoleRepository.findUserRoleById(registerRequestDto.getUserRoleId());
+    public String register(UserRequestDto userRequestDto) {
+        User user = UserMapper.INSTANCE.dtoToEntity(userRequestDto);
+        if(userRequestDto.getUserRoleId() != null){
+            UserRole userRole = userRoleRepository.findUserRoleById(userRequestDto.getUserRoleId());
             if(userRole == null){
                 throw new DataNotFoundException(Message.USER_ROLE_NOT_FOUND.value());
             }
             user.setUserRole(userRole);
         }
-        List<String> phoneList = registerRequestDto.getPhoneList();
+        List<String> phoneList = userRequestDto.getPhoneList();
         List<UserPhone> savedUserPhoneList = new ArrayList<>();
         User savedUser = userRepository.save(user);
         for(String phone : phoneList){
