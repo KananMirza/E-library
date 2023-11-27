@@ -59,7 +59,7 @@ public class LeaseStatusServiceImpl implements LeaseStatusService {
         return "LeaseStatus has been successfully deleted!";
     }
 
-    private LeaseStatus findLeaseStatus(Long id){
+    public LeaseStatus findLeaseStatus(Long id){
         LeaseStatus leaseStatus = leaseStatusRepository.findByIdAndIsDeleted(id
                 ,DeleteType.NONDELETE.value());
         if(leaseStatus == null){

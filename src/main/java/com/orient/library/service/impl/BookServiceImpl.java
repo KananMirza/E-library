@@ -92,7 +92,7 @@ public class BookServiceImpl implements BookService {
         return "Book status has been successfully changed!";
     }
 
-    private Book findBook(Long id) {
+    public Book findBook(Long id) {
         Book book = bookRepository.findBookByIdAndIsDeleted(id, DeleteType.NONDELETE.value());
         if (book == null) {
             throw new DataNotFoundException(Message.BOOK_NOT_FOUND.value());
