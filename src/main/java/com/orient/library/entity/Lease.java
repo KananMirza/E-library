@@ -24,7 +24,7 @@ public class Lease {
     @ManyToOne
     @JoinColumn(name = "book_id")
     Book book;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "lease_and_status", joinColumns = @JoinColumn(name = "lease_id"), inverseJoinColumns = @JoinColumn(name = "lease_status_id"))
     List<LeaseStatus> statuses;
     @Column(name = "from_date")

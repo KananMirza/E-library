@@ -11,5 +11,4 @@ public interface LeaseService {
     String createLease(LeaseRequestDto leaseRequestDto);
     String updateLease(LeaseRequestDto leaseRequestDto);
 
-    String updateLeaseStatus();
 }
