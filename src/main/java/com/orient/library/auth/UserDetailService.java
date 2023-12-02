@@ -1,6 +1,7 @@
 package com.orient.library.auth;
 
 import com.orient.library.entity.User;
+import com.orient.library.entity.UserRole;
 import com.orient.library.enums.DeleteType;
 import com.orient.library.enums.Message;
 import com.orient.library.enums.Status;
@@ -20,7 +21,9 @@ public class UserDetailService implements UserDetailsService {
     private final UserRepository userRepository;
     @Override
     public UserDetails loadUserByUsername(String userEmail) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmailAndStatusAndIsDeleted(userEmail, Status.ACTIVE.value(), DeleteType.NONDELETE.value());
+        UserRole userRole = new UserRole();
+        userRole.setId(Long.parseLong("2"));
+        User user = userRepository.findUserByEmailAndStatusAndIsDeletedAndUserRole(userEmail, Status.ACTIVE.value(), DeleteType.NONDELETE.value(),userRole);
         if(user == null){
             throw new DataNotFoundException(Message.USER_NOT_FOUND.value());
         }

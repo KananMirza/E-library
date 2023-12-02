@@ -10,7 +10,7 @@ import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User,Long> {
-    User findUserByEmailAndStatusAndIsDeleted(String email,Integer status,Integer isDeleted);
+    User findUserByEmailAndStatusAndIsDeletedAndUserRole(String email, Integer status, Integer isDeleted, UserRole userRole);
     List<User> getAllByIsDeletedAndUserRole_Id(Integer isDeleted, Long userRoleId);
     User findUserByIdAndIsDeletedAndUserRole_Id(Long id, Integer isDeleted, Long userRole);
 }
