@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
@@ -17,7 +18,7 @@ public class LeaseRequestDto {
     @NotNull(message = "User is required!")
     Long userId;
     @NotNull(message = "Status is required!")
-    Long status;
+    Long statusId;
     @NotNull(message = "From date is required!")
     @FutureOrPresent(message = "From date must be in the future or present")
     LocalDateTime fromDate;

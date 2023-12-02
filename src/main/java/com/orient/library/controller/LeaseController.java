@@ -38,8 +38,4 @@ public class LeaseController {
     public ResponseEntity<ResponseApi> updateLease(@RequestBody @Valid LeaseRequestDto leaseRequestDto){
         return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),leaseService.updateLease(leaseRequestDto),null));
     }
-    @PostMapping("/update-status")
-    public ResponseEntity<ResponseApi> updateLeaseStatus(){
-        return ResponseEntity.ok(utility.response(HttpStatus.OK.value(),leaseService.updateLeaseStatus(),null));
-    }
 }

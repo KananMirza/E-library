@@ -10,12 +10,12 @@ import com.orient.library.enums.Message;
 import com.orient.library.exception.DataNotFoundException;
 import com.orient.library.mapper.LeaseMapper;
 import com.orient.library.repository.LeaseRepository;
-import com.orient.library.service.BookService;
 import com.orient.library.service.LeaseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,25 +41,27 @@ public class LeaseServiceImpl implements LeaseService {
     @Override
     public String createLease(LeaseRequestDto leaseRequestDto) {
         Lease lease = LeaseMapper.INSTANCE.dtoToEntity(leaseRequestDto);
-        Book book = bookService.findBook(leaseRequestDto.getBookId());
-        User user = userService.findUser(leaseRequestDto.getUserId());
-        LeaseStatus status = leaseStatusService.findLeaseStatus(leaseRequestDto.getStatus());
-        lease.setBook(book);
-        lease.setUser(user);
-        leaseRepository.save(lease);
+        createOrUpdate(leaseRequestDto, lease);
         return "Lease has been successfully created!";
     }
 
     @Override
     public String updateLease(LeaseRequestDto leaseRequestDto) {
-        Lease lease = LeaseMapper.INSTANCE.dtoToEntity(leaseRequestDto);
-        leaseRepository.save(lease);
+        Lease lease = findById(leaseRequestDto.getId());
+        createOrUpdate(leaseRequestDto, lease);
         return "Lease has been successfully updated!";
     }
 
-    @Override
-    public String updateLeaseStatus() {
-        return null;
+    private void createOrUpdate(LeaseRequestDto leaseRequestDto, Lease lease) {
+        Book book = bookService.findBook(leaseRequestDto.getBookId());
+        User user = userService.findUser(leaseRequestDto.getUserId());
+        LeaseStatus status = leaseStatusService.findLeaseStatus(leaseRequestDto.getStatusId());
+        List<LeaseStatus> statuses = new ArrayList<>();
+        statuses.add(status);
+        lease.setStatuses(statuses);
+        lease.setBook(book);
+        lease.setUser(user);
+        leaseRepository.save(lease);
     }
 
     private Lease findById(Long leaseId){
