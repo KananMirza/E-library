@@ -60,7 +60,7 @@ public class PenaltyTypeServiceImpl implements PenaltyTypeService {
         return "PenaltyType has been successfully deleted!";
     }
 
-    private PenaltyType findPenaltyType(Long id) {
+    public PenaltyType findPenaltyType(Long id) {
         PenaltyType penaltyType = penaltyTypeRepository.findPenaltyTypeByIdAndIsDeleted(id, DeleteType.NONDELETE.value());
         if (penaltyType == null) {
             throw new DataNotFoundException(Message.PENALTY_TYPE_NOT_FOUND.value());

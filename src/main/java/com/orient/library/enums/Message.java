@@ -13,8 +13,8 @@ public enum Message {
     BOOK_NOT_FOUND("Book not found!"),
     USER_ROLE_NOT_FOUND("User role not found!"),
     USER_NOT_FOUND("User not found!"),
-    LEASE_NOT_FOUND("Lease not found!");
-
+    LEASE_NOT_FOUND("Lease not found!"),
+    PENALTY_NOT_FOUND("Penalty not found!");
     private String message;
     Message(String message){
         this.message = message;

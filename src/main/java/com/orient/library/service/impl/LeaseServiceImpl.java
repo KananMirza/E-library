@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,6 +50,7 @@ public class LeaseServiceImpl implements LeaseService {
     public String updateLease(LeaseRequestDto leaseRequestDto) {
         Lease lease = findById(leaseRequestDto.getId());
         createOrUpdate(leaseRequestDto, lease);
+        lease.setUpdatedAt(LocalDateTime.now());
         return "Lease has been successfully updated!";
     }
 
@@ -64,7 +66,7 @@ public class LeaseServiceImpl implements LeaseService {
         leaseRepository.save(lease);
     }
 
-    private Lease findById(Long leaseId){
+    public Lease findById(Long leaseId){
         Lease lease = leaseRepository.findLeaseById(leaseId);
         if(lease == null){
             throw new DataNotFoundException(Message.LEASE_NOT_FOUND.value());
