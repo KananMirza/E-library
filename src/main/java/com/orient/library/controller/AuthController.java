@@ -12,6 +12,7 @@ import com.orient.library.util.Utility;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Slf4j
 public class AuthController {
     private final TokenManager tokenManager;
     private final AuthenticationManager authenticationManager;
@@ -32,6 +34,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<ResponseApi> login(@RequestBody @Valid LoginRequest loginRequest) {
+        log.info(loginRequest.toString());
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword())
         );

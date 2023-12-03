@@ -5,6 +5,7 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.time.LocalDateTime;
 
@@ -32,4 +33,14 @@ public class Author {
     LocalDateTime createdAt;
     @Column(name = "updated_at")
     LocalDateTime updatedAt;
+
+    @PostLoad
+    public void init() {
+        if (this.status == null) {
+            this.status = 1;
+        }
+        if(this.isDeleted == null){
+            this.isDeleted = 0;
+        }
+    }
 }

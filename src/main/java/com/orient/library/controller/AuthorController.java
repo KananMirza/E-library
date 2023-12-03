@@ -43,8 +43,8 @@ public class AuthorController {
     @PostMapping("/create")
     public ResponseEntity<ResponseApi> createAuthor(@RequestBody @Valid AuthorRequestDto authorRequestDto) {
         return ResponseEntity.status(HttpStatus.CREATED.value()).body(utility.response(HttpStatus.CREATED.value(),
-                Message.SUCCESS.value(),
-                authorService.createAuthor(authorRequestDto)));
+                authorService.createAuthor(authorRequestDto),
+                null));
     }
 
     @PostMapping("/update")
