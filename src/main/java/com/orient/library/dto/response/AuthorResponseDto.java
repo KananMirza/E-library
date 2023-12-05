@@ -13,6 +13,7 @@ public class AuthorResponseDto {
     String name;
     String surname;
     String description;
+    String image;
     Integer status;
     LocalDateTime createdAt;
 }

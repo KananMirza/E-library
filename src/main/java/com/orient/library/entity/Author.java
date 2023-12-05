@@ -25,6 +25,8 @@ public class Author {
     String surname;
     @Column(name = "description")
     String description;
+    @Column(name = "image")
+    String image;
     @Column(name = "status")
     Integer status;
     @Column(name = "is_deleted")
