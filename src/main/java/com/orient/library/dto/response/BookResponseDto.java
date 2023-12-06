@@ -25,6 +25,7 @@ public class BookResponseDto {
     Year yearPublishing;
     Integer count;
     Integer status;
+    String image;
     LocalDateTime createdAt;
 
 }

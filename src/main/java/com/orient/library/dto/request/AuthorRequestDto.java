@@ -10,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthorRequestDto {
     Long id;
-    ImageRequestDto image;
+    ImageRequestDto imageFile;
     @NotBlank(message = "Name is required!")
     String name;
     @NotBlank(message = "Surname is required!")

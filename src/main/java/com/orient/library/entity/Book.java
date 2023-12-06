@@ -32,6 +32,8 @@ public class Book {
     Float penaltyAmount;
     @Column(name = "year_publishing")
     Year yearPublishing;
+    @Column(name = "image")
+    String image;
     @Column(name = "count")
     Integer count;
     @Column(name = "status")

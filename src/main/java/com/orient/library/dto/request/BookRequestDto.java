@@ -15,6 +15,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BookRequestDto {
     Long id;
+    ImageRequestDto imageFile;
     @NotBlank(message = "SeriaId is required!")
     String seriaId;
     @NotNull(message = "Shelf is required!")

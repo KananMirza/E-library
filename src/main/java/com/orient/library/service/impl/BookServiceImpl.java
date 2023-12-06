@@ -8,12 +8,14 @@ import com.orient.library.enums.DeleteType;
 import com.orient.library.enums.Message;
 import com.orient.library.enums.Status;
 import com.orient.library.exception.DataNotFoundException;
+import com.orient.library.mapper.AuthorMapper;
 import com.orient.library.mapper.BookMapper;
 import com.orient.library.repository.AuthorRepository;
 import com.orient.library.repository.BookRepository;
 import com.orient.library.repository.CategoryRepository;
 import com.orient.library.repository.PublishingRepository;
 import com.orient.library.service.BookService;
+import com.orient.library.util.Utility;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -32,18 +34,30 @@ public class BookServiceImpl implements BookService {
     private final CategoryRepository categoryRepository;
     private final AuthorRepository authorRepository;
     private final PublishingRepository publishingRepository;
+    private final Utility utility;
 
     @Override
     public List<BookResponseDto> getAllBooks() {
         return bookRepository.getBooksByIsDeleted(DeleteType.NONDELETE.value())
                 .stream()
-                .map(BookMapper.INSTANCE::entityToDto)
+                .map(book -> {
+                    if (book.getImage() != null) {
+                        String image = utility.imageDownload(book.getImage());
+                        book.setImage(image);
+                    }
+                    return BookMapper.INSTANCE.entityToDto(book);
+                })
                 .collect(Collectors.toList());
     }
 
     @Override
     public BookResponseDto getBookById(Long id) {
-        return BookMapper.INSTANCE.entityToDto(findBook(id));
+        Book book = findBook(id);
+        if(book.getImage() != null){
+            String image = utility.imageDownload(book.getImage());
+            book.setImage(image);
+        }
+        return BookMapper.INSTANCE.entityToDto(book);
     }
 
     @Override
@@ -53,6 +67,8 @@ public class BookServiceImpl implements BookService {
         List<Category> categories = getCategoryList(bookRequestDto.getCategoriesId());
         List<Author> authors = getAuthorList(bookRequestDto.getAuthorsId());
         List<Publishing> publishers = getPublishingList(bookRequestDto.getPublishersId());
+        String image = utility.imageUpload(bookRequestDto.getImageFile());
+        book.setImage(image);
         book.setShelf(shelf);
         book.setCategories(categories);
         book.setAuthors(authors);
@@ -68,6 +84,10 @@ public class BookServiceImpl implements BookService {
         List<Category> categories = getCategoryList(bookRequestDto.getCategoriesId());
         List<Author> authors = getAuthorList(bookRequestDto.getAuthorsId());
         List<Publishing> publishers = getPublishingList(bookRequestDto.getPublishersId());
+        if (bookRequestDto.getImageFile() != null) {
+            String image = utility.imageUpload(bookRequestDto.getImageFile());
+            book.setImage(image);
+        }
         setBookFields(book, shelf, bookRequestDto, categories, authors, publishers);
         book.setUpdatedAt(LocalDateTime.now());
         bookRepository.save(book);

@@ -10,6 +10,7 @@ import com.orient.library.exception.DataNotFoundException;
 import com.orient.library.mapper.AuthorMapper;
 import com.orient.library.repository.AuthorRepository;
 import com.orient.library.service.AuthorService;
+import com.orient.library.util.Utility;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,33 +22,52 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
+    private final Utility utility;
     private static final LocalDateTime CURRENT_DATE = LocalDateTime.now();
 
     @Override
     public List<AuthorResponseDto> getAllAuthor() {
         return authorRepository.getAuthorsByIsDeleted(DeleteType.NONDELETE.value()).stream()
-                .map(AuthorMapper.INSTANCE::entityToDto).collect(Collectors.toList());
+                .map(author -> {
+                            if (author.getImage() != null) {
+                                String image = utility.imageDownload(author.getImage());
+                                author.setImage(image);
+                            }
+                            return AuthorMapper.INSTANCE.entityToDto(author);
+                        }
+                ).collect(Collectors.toList());
     }
 
     @Override
     public AuthorResponseDto getAuthorById(Long id) {
-        return AuthorMapper.INSTANCE.entityToDto(findAuthor(id));
+        Author author = findAuthor(id);
+        if (author.getImage() != null) {
+            String image = utility.imageDownload(author.getImage());
+            author.setImage(image);
+        }
+        return AuthorMapper.INSTANCE.entityToDto(author);
     }
 
     @Override
     public String createAuthor(AuthorRequestDto authorRequestDto) {
         Author author = AuthorMapper.INSTANCE.dtoToEntity(authorRequestDto);
+        String image = utility.imageUpload(authorRequestDto.getImageFile());
+        author.setImage(image);
         authorRepository.save(author);
         return "Author has been successfully created!";
     }
 
     @Override
-    public String updateAuthor(AuthorRequestDto requestAuthor) {
-        Author author = findAuthor(requestAuthor.getId());
-        author.setName(requestAuthor.getName());
-        author.setSurname(requestAuthor.getSurname());
-        author.setDescription(requestAuthor.getDescription());
+    public String updateAuthor(AuthorRequestDto authorRequestDto) {
+        Author author = findAuthor(authorRequestDto.getId());
+        author.setName(authorRequestDto.getName());
+        author.setSurname(authorRequestDto.getSurname());
+        author.setDescription(authorRequestDto.getDescription());
         author.setUpdatedAt(CURRENT_DATE);
+        if (authorRequestDto.getImageFile() != null) {
+            String image = utility.imageUpload(authorRequestDto.getImageFile());
+            author.setImage(image);
+        }
         authorRepository.save(author);
         return "Author has been successfully updated!";
     }
@@ -69,9 +89,10 @@ public class AuthorServiceImpl implements AuthorService {
         authorRepository.save(author);
         return "Author status has been successfully changed!";
     }
-    private Author findAuthor(Long id){
-        Author author = authorRepository.findAuthorByIdAndIsDeleted(id,DeleteType.NONDELETE.value());
-        if(author == null){
+
+    private Author findAuthor(Long id) {
+        Author author = authorRepository.findAuthorByIdAndIsDeleted(id, DeleteType.NONDELETE.value());
+        if (author == null) {
             throw new DataNotFoundException(Message.AUTHOR_NOT_FOUND.value());
         }
         return author;
