@@ -53,7 +53,6 @@ public class Utility {
 
     private String getString(ResponseEntity<ResponseApi> response,boolean isKey) {
         ResponseApi responseBody = response.getBody();
-        log.info(responseBody.toString());
         Object body = responseBody.getBody();
 
         if (body instanceof LinkedHashMap) {
@@ -65,9 +64,9 @@ public class Utility {
 
                 return fileResponseDto.getKey();
             }else{
-                fileResponseDto.setFilePath((String) responseMap.get("filePath"));
+                fileResponseDto.setFileContent((String) responseMap.get("fileContent"));
 
-                return fileResponseDto.getFilePath();
+                return fileResponseDto.getFileContent();
             }
         } else {
             throw new ImageServiceException("Unexpected response body type: " + body.getClass());
