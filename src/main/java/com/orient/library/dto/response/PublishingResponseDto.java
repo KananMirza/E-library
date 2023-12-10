@@ -14,5 +14,5 @@ public class PublishingResponseDto {
     String description;
     String address;
     Integer status;
-    LocalDateTime created_at;
+    LocalDateTime createdAt;
 }
