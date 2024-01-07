@@ -20,9 +20,7 @@ public class LeaseRequestDto {
     @NotNull(message = "Status is required!")
     Long statusId;
     @NotNull(message = "From date is required!")
-    @FutureOrPresent(message = "From date must be in the future or present")
     LocalDateTime fromDate;
     @NotNull(message = "To date is required!")
-    @FutureOrPresent(message = "To date must be in the future or present")
     LocalDateTime toDate;
 }
